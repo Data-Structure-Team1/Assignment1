@@ -1,405 +1,331 @@
-#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
-
-template<class T>
-void InsertionSort(T arr[], int n) {
-
-    for (int i = 1; i < n; i++)
-    {
-        int j = 0;
-        T temp = arr[i];
-        for (int j = i; j > 0 && temp < arr[j - 1]; j--)
-        {
-            arr[j] = arr[j - 1];
-
-            arr[j-1] = temp;
-        }
-
-    }
-
-
-}
-//Selection sort
-template<class T>
-void selectionSort(T arr[], int n) {
-    for (int i = 0; i < n - 1; i++)
-    {
-        T temp = i;
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j] < arr[temp])
-                temp = j;
-        }
-
-        swap(arr[i], arr[temp]);
-
-    }
-
-
-}
-//Bubble sort
-template<class T>
-void BubbleSort(T arr[], int n) {
-    bool flage = true;
-    for (int i = 0; i < n-1; i++)
-    {
-        for (int j = 0; j < n-i-1; j++)
-        {
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
-                flage = false;
-            }
-
-        }
-        if (flage)
-            break;
-    }
-}
-
-//Shall sort
 template <class T>
-void shellSort(T arr[], int n)
-{
-
-    for (int gap = n / 2; gap > 0; gap /= 2)
-    {
-
-        for (int i = gap; i < n; i ++)
-        {
-
-            T temp = arr[i];
-            int j ;
-            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-                arr[j] = arr[j - gap];
-            }
-
-            arr[j] = temp;
-        }
-    }
-}
-
-
-
-
-
-template<class T>
-void print(T arr[], int n) {
-    for (int i = 0; i <n ; i++)
-    {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
-
-class student{
-    string id;
-    string name;
-    float gpa;
-
-public:
-        student():id(""),name(""),gpa(0.0){};//default constructor to initilize array of this object
-    student(string id,string name,float gpa);
-    student(const student &other);
-    bool operator<(const student& student1){
-        return name < student1.name;
-    };
-
-    string get_id(){
-        return id;
-    }
-    string get_name(){
-        return name;
-    }
-    float get_gpa(){
-        return gpa;
-    }
-
+struct node {
+    T item;
+    node *next;
+    node *pre;
+    node(T data) : item(data), next(nullptr), pre(nullptr) {}
 };
 
-student::student(string id,string name, float gpa) {
-    this->id = id;
-    this->name=name;
-    this->gpa=gpa;
-}
-
-student::student(const student &other) {
-    id=other.id;
-    name=other.name;
-    gpa=other.gpa;
-}
-void InsertionSortBY_NAME(student arr[], int n) {
-
-    for (int i = 1; i < n; i++)
-    {
-        int j = 0;
-        student temp = arr[i];
-        for (int j = i; j > 0 && temp.get_name() < arr[j - 1].get_name(); j--)
-        {
-            arr[j] = arr[j - 1];
-
-            arr[j-1] = temp;
+template <class T>
+class doublyLinkedList {
+    node<T> *first;
+    node<T> *last;
+    int length;
+public:
+    doublyLinkedList() {
+        first = nullptr;
+        last = nullptr;
+        length = 0;
+    }
+    ~doublyLinkedList(){
+        while (first!= nullptr){
+            node<T>* current=first;
+            first=first->next;
+            delete current;
         }
-
     }
 
-
-}
-
-void InsertionSortBY_GPA(student arr[], int n) {
-
-    for (int i = 1; i < n; i++)
-    {
-        int j = i-1;
-        student temp = arr[i];
-        for ( j=i-1; j >= 0 && temp.get_gpa() > arr[j].get_gpa(); j--)
-        {
-            arr[j+1] = arr[j];
-
-        }
-        arr[j+1] = temp;
-
+    bool isEmpty() const {
+        return first == nullptr;
     }
 
-}
+    void insertAtHead(T element) {
+        node<T> *newNode = new node(element);
+        if (isEmpty()) {
+            first = last = newNode;
+            newNode->next = newNode->pre = nullptr;
+        } else {
+            newNode->next = first;
+            newNode->pre = nullptr;
+            first->pre = newNode;
+            first = newNode;
+        }
+        length++;
+    }
 
-void selectionSortBy_NAME(student arr[], int n) {
-    for (int i = 0; i < n - 1; i++)
-    {
-        int temp = i;
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j].get_name() < arr[temp].get_name())
-                temp = j;
+//
+    void insertAtTail(T element) {
+        node<T> *newNode = new node(element);
+        if (isEmpty()) {
+            first = last = newNode;
+            newNode->next = newNode->pre = nullptr;
+        } else {
+            newNode->next = nullptr;
+            newNode->pre = last;
+            last->next = newNode;
+            last = newNode;
+        }
+        length++;
+    }
+
+    void insertAt(T element, int index) {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
         }
 
-        swap(arr[i], arr[temp]);
-
-    }
-}
-void selectionSortBy_GPA(student arr[], int n) {
-    for (int i = 0; i < n - 1; i++)
-    {
-        int temp = i;
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j].get_gpa() > arr[temp].get_gpa())
-                temp = j;
+        if (index< 0||index >=length) {
+            throw out_of_range("out of range");
         }
-
-        swap(arr[i], arr[temp]);
-
-    }
-}
-void BubbleSortBY_NAME(student arr[], int n) {
-    bool flage = true;
-    for (int i = 0; i < n-1; i++)
-    {
-        for (int j = 0; j < n-i-1; j++)
-        {
-            if (arr[j].get_name() > arr[j + 1].get_name()) {
-                swap(arr[j], arr[j + 1]);
-                flage = false;
+        else {
+            node<T> *newNode = new node(element);
+            if (index == 0) {
+                insertAtHead(element);
             }
-
-        }
-        if (flage)
-            break;
-    }
-}
-void BubbleSortBY_GPA(student arr[], int n) {
-    bool flage = true;
-    for (int i = 0; i < n-1; i++)
-    {
-        for (int j = 0; j < n-i-1; j++)
-        {
-            if (arr[j].get_gpa() < arr[j + 1].get_gpa()) {
-                swap(arr[j], arr[j + 1]);
-                flage = false;
+            if (index == length) {
+                insertAtTail(element);
+            } else {
+                node<T> *current = first;
+                for (int i = 0; i < index - 1; i++) {
+                    current = current->next;
+                }
+                newNode->next = current->next;
+                newNode->pre = current;
+                current->next = newNode;
+                current->next->pre = newNode;
+                length++;
             }
-
         }
-        if (flage)
-            break;
     }
-}
-void shellSortBY_NAME(student arr[], int n)
-{
 
-    for (int gap = n / 2; gap > 0; gap /= 2)
-    {
 
-        for (int i = gap; i < n; i ++)
-        {
+    void removeAtHead() {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+        }
 
-            student temp = arr[i];
-            int j ;
-            for (j = i; j >= gap && arr[j - gap].get_name() > temp.get_name(); j -= gap) {
-                arr[j] = arr[j - gap];
+        else if (length == 1) {
+            delete first;
+            last = first = nullptr;
+        } else {
+            node<T> *current = first;
+            first = first->next;
+            first->pre = nullptr;
+            delete current;
+        }
+        length--;
+    }
+
+    void removeAtTail() {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+        }
+
+        else if (length == 1) {
+            delete first;
+            last = first = nullptr;
+        } else {
+            node<T> *current = last;
+            last = last->pre;
+            last->next = nullptr;
+            delete current;
+        }
+        length--;
+    }
+
+    void removeAt(int index) {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+        }
+
+        if (index< 0||index >=length) {
+            throw out_of_range("out of range");
+        }
+        if (index == 0) {
+            removeAtHead();
+            return;
+        }
+        if (index == length - 1) {
+            removeAtTail();
+            return;
+        }
+        node<T> *current = first;
+        for (int i = 0; i < index; ++i) {
+            current = current->next;
+        }
+        current->pre->next = current->next;
+        current->next->pre = current->pre;
+        delete current;
+        length--;
+    }
+
+    void swap(int one, int two) {
+        if (one == two) {
+            return;
+        }
+        if (one < 0 || one >= length || two < 0 || two >= length) {
+            cout << "OUT OF RANGE" <<endl;
+        }
+        if (one > two) {
+            swap(two, one);
+            return;
+        }
+        node<T> *firstNode = nullptr;
+        node<T> *secondNode = nullptr;
+        if (one == 0) {
+            firstNode = first;
+        } else {
+            firstNode = first;
+            for (int i = 0; i < one; ++i) {
+                firstNode = firstNode->next;
             }
-
-            arr[j] = temp;
         }
-    }
-}
-void shellSortBY_GPA(student arr[], int n)
-{
-
-    for (int gap = n / 2; gap > 0; gap /= 2)
-    {
-
-        for (int i = gap; i < n; i ++)
-        {
-
-            student temp = arr[i];
-            int j ;
-            for (j = i; j >= gap && arr[j - gap].get_gpa() < temp.get_gpa(); j -= gap) {
-                arr[j] = arr[j - gap];
+        if (two == 0) {
+            secondNode = first;
+        } else {
+            secondNode = first;
+            for (int i = 0; i < two; ++i) {
+                secondNode = secondNode->next;
             }
+        }
+        T current = firstNode->item;
+        firstNode->item= secondNode->item;
+        secondNode->item= current;
+    }
 
-            arr[j] = temp;
+    bool isExist(T element) {
+        node<T>* temp =first;
+        if(isEmpty()){
+            cout<<"NO ITEMS"<<endl;
+            return false;
+        }
+        while (temp != nullptr) {
+            if (temp->item == element) {
+                return true;
+            }
+            temp = temp->next;
+        }
+        return false;
+    }
+    T retrieveAt(int index)  {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+        }
+
+        if (index< 0||index >=length) {
+            throw out_of_range("out of range");
+        }
+
+        node<T>* current = first;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+
+        return current->item;
+    }
+    bool isItemAtEqual(T element, int index) {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+            return false;
+        }
+
+        if (index< 0||index >=length) {
+            throw out_of_range("out of range");
+            return false;
+        }
+        return retrieveAt(index) == element;
+    }
+        void replaceAt(T newElement,int index) {
+        if (isEmpty()) {
+            throw out_of_range("List is empty");
+        }
+
+        if (index <0|| index >= length) {
+            throw out_of_range("Index out of range");
+        }
+
+        node<T>* current = first;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+
+        current->item = newElement;
+    }
+
+    int linkedListSize() {
+        return length;
+    }
+
+    void clear() {
+        while (first!= nullptr) {
+            removeAtHead();
         }
     }
-}
-void printArray(student arr[], int n){
-    for (int i=0;i<n;i++){
-        cout<<"NAME: "<<arr[i].get_name()<<endl;
-        cout<<"ID: "<<arr[i].get_id()<<endl;
-        cout<<"GPA: "<<arr[i].get_gpa()<<endl;
-        cout<<endl;
-    }
-}
 
-void printInTXT(ofstream &of , student arr[], int n){
-    for (int i=0;i<n;i++){
-        of<<arr[i].get_name()<<endl;
-        of<<arr[i].get_id()<<endl;
-        of<<arr[i].get_gpa()<<endl;
-        of<<endl;
+    void print() {
+        node<T> *current = first;
+
+        while (current != nullptr) {
+            cout << current->item << " ";
+            current = current->next;
+        }
+        cout <<endl;
     }
-}
+};
 
 int main() {
-    ifstream inputFile("C:\\data structure\\students.txt");// opens students txt file
-    int stud_num;
-    inputFile>>stud_num;//this will read the first line of the file which is the number of students obj
-    student stud[stud_num];//array of students
-    if (!inputFile) cout<<"error opening the file"<<endl;
+    doublyLinkedList<int> list;
+
+    cout << "Is list empty? " << (list.isEmpty()?"Yes" : "No") <<endl;
+    list.insertAtHead(3);
+    list.insertAtHead(2);
+    list.insertAtHead(1);
+
+    cout << "after inserting at head: ";
+    list.print();
+
+    list.insertAtTail(4);
+    list.insertAtTail(5);
+
+    cout << "after inserting at tail: ";
+    list.print();
 
 
-    for (int i=0;i<stud_num;i++){//this will loop on every single line right after the first line read in int stud_num
-        string id,name;
-        float gpa;
-        inputFile.ignore();//this ignores newline char right after first character
-        getline(inputFile,name);//this will include space also while reading name
-        inputFile>>id;
-        inputFile>>gpa;
-        stud[i] = student(id,name,gpa);//then it will store each data of a student in one obj of this student
+
+    list.insertAt(25, 2);
+    cout << "after inserting at index 2: ";
+    list.print();
+
+
+    list.removeAtHead();
+    cout << "after removing at head: ";
+    list.print();
+    cout << "List size: " << list.linkedListSize() <<endl;
+    list.removeAtTail();
+    cout << "after removing at tail: ";
+    list.print();
+
+    list.swap(0, 2);
+
+    cout << "after swapping elements at 0 and 2: ";
+    list.print();
+
+
+    if (list.isExist(2)) {
+        cout << " 2 exists in the list." <<endl;
+    } else {
+        cout << "2 does not exist in the list." <<endl;
     }
 
-    student arr_copy[stud_num];//coping array to get to original non-sorted array whenever we measure
-    for(int i=0;i<stud_num;i++){// different type of sorting
-        arr_copy[i]=stud[i];
-    }
+    int retrievedItem = list.retrieveAt(1);
+    cout << "Item at index 1: " << retrievedItem <<endl;
 
 
-    inputFile.close();
+    if (list.isItemAtEqual(10, 1)) {
+        cout << "Element at index 1 is equal to 10." <<endl;
+        }
+    else {
+        cout << "Element at index 1 is not equal to 10." <<endl;
+        }
 
-    //INSERTION SORT FOR BOTH BASES
-    InsertionSortBY_NAME(arr_copy,stud_num);
-    ofstream outFileName("C:\\data structure\\SortedByNAME.txt");
-    outFileName<<"Algorithm: Insertion Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileName<<"Running Time: "<<endl;
-    printInTXT(outFileName,arr_copy,stud_num);
+    list.replaceAt(100, 2);
+    cout << "after replacing index 2 with '100'"<<endl;
+    list.print();
+    cout << "Is list empty? " << (list.isEmpty() ? "Yes" : "No") <<endl;
 
-
-    InsertionSortBY_GPA(arr_copy,stud_num);
-    ofstream outFileGPA("C:\\data structure\\SortedByGPA.txt");
-    outFileGPA<<"Algorithm: Insertion Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileGPA<<"Running Time: "<<endl;
-    printInTXT(outFileGPA,arr_copy,stud_num);
-
-
-    for(int i=0;i<stud_num;i++){// different type of sorting
-        arr_copy[i]=stud[i];
-    }
-    printArray(arr_copy,stud_num);
-
-
-    //SELECTION SORT FOR BOTH BASES
-    selectionSortBy_NAME(arr_copy,stud_num);
-    outFileName<<"Algorithm: Selection Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileName<<"Running Time: "<<endl;
-    printInTXT(outFileName,arr_copy,stud_num);
-
-
-    selectionSortBy_GPA(arr_copy,stud_num);
-    outFileGPA<<"Algorithm: Selection Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileGPA<<"Running Time: "<<endl;
-    printInTXT(outFileGPA,arr_copy,stud_num);
-
-
-
-    for(int i=0;i<stud_num;i++){// different type of sorting
-        arr_copy[i]=stud[i];
-    }
-    printArray(arr_copy,stud_num);
-
-
-    //BUBBLE SORT FOR BOTH BASES
-    BubbleSortBY_NAME(arr_copy,stud_num);
-    outFileName<<"Algorithm: Bubble Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileName<<"Running Time: "<<endl;
-    printInTXT(outFileName,arr_copy,stud_num);
-
-
-    BubbleSortBY_GPA(arr_copy,stud_num);
-    outFileGPA<<"Algorithm: Bubble Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileGPA<<"Running Time: "<<endl;
-    printInTXT(outFileGPA,arr_copy,stud_num);
-
-
-    for(int i=0;i<stud_num;i++){// different type of sorting
-        arr_copy[i]=stud[i];
-    }
-    printArray(arr_copy,stud_num);
-
-
-    //SHELL SORT FOR BOTH BASES
-    shellSortBY_NAME(arr_copy,stud_num);
-    outFileName<<"Algorithm: shell Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileName<<"Running Time: "<<endl;
-    printInTXT(outFileName,arr_copy,stud_num);
-
-
-    shellSortBY_GPA(arr_copy,stud_num);
-    outFileGPA<<"Algorithm: shell Sort"<<endl;
-    outFileName<<"Number of Comparisons : "<<endl;
-    outFileGPA<<"Running Time: "<<endl;
-    printInTXT(outFileGPA,arr_copy,stud_num);
-
-
-    for(int i=0;i<stud_num;i++){// different type of sorting
-        arr_copy[i]=stud[i];
-    }
-    printArray(arr_copy,stud_num);
-
-
-    //MERGE SORT FOR BOTH BASES
-
-    //QUICK SORT FOR BOTH BASES
-
-    //int COUNT SORT
-
+    list.clear();
+    cout<<"after clearing"<<endl;
+    cout << "Is list empty? " << (list.isEmpty() ? "Yes" : "No") <<endl;
 
 }
-
-
-
-
