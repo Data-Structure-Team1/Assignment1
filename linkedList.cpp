@@ -239,7 +239,48 @@ public:
     int linkedListSize() {
         return count;
     }
+    void swap(int firstItemIdx, int secondItemIdx) {
+        if (firstItemIdx < 0 || firstItemIdx >= count || secondItemIdx < 0 || secondItemIdx >= count) {
+            cout << "Invalid indices" << endl;
+            return;
+        }
+        if (firstItemIdx == secondItemIdx) {
+            return;
+        }
+        if (firstItemIdx > secondItemIdx) {
+            swap(secondItemIdx, firstItemIdx);
+            return;
+        }
+        Node<T>* firstPrev = NULL;
+        Node<T>* firstCurr = first;
+        for (int i = 0; i < firstItemIdx; ++i) {
+            firstPrev = firstCurr;
+            firstCurr = firstCurr->next;
+        }
+        Node<T>* secondPrev = NULL;
+        Node<T>* secondCurr = first;
+        for (int i = 0; i < secondItemIdx; ++i) {
+            secondPrev = secondCurr;
+            secondCurr = secondCurr->next;
+        }
+    
 
+      if (firstPrev != NULL) {
+            firstPrev->next = secondCurr;
+        }
+        else {
+            first = secondCurr;
+        }
+        if (secondPrev != NULL) {
+            secondPrev->next = firstCurr;
+        }
+        else {
+            first = firstCurr;
+        }
+        Node<T>* temp = firstCurr->next;
+        firstCurr->next = secondCurr->next;
+        secondCurr->next = temp;
+    }
 
     void print() {
         Node<T>* curr=first;
