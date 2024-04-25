@@ -83,7 +83,7 @@ public:
                 newNode->next = current->next;
                 newNode->pre = current;
                 current->next = newNode;
-                current->next->pre = newNode;
+                current->next->next->pre = newNode;
                 length++;
             }
         }
