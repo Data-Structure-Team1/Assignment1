@@ -62,11 +62,11 @@ public:
 
     void insertAt(T element, int index) {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
         }
 
         if (index< 0||index >=length) {
-            throw out_of_range("out of range");
+            cout << "OUT OF RANGE" <<endl;
         }
         else {
             node<T> *newNode = new node(element);
@@ -92,7 +92,7 @@ public:
 
     void removeAtHead() {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
         }
 
         else if (length == 1) {
@@ -109,7 +109,7 @@ public:
 
     void removeAtTail() {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
         }
 
         else if (length == 1) {
@@ -153,39 +153,92 @@ public:
         length--;
 
     }
+    node<T>* getNodeAt(int index) {
+        if (index < 0 || index >= length) {
+            return nullptr;
+        }
+        node<T>* current =first;
+        for (int i = 0; i < index; ++i) {
+            current = current->next;
+        }
+        return current;
+    }
 
-    void swap(int one, int two) {
-        if (one == two) {
+    void swap(int firstItemIdx, int secondItemIdx) {
+        if (firstItemIdx == secondItemIdx) {
             return;
         }
-        if (one < 0 || one >= length || two < 0 || two >= length) {
-            cout << "OUT OF RANGE" <<endl;
-        }
-        if (one > two) {
-            swap(two, one);
+
+        if (firstItemIdx < 0 || firstItemIdx >= length || secondItemIdx < 0 || secondItemIdx >=length) {
+            std::cout << "OUT OF RANGE!" << std::endl;
             return;
         }
-        node<T> *firstNode = nullptr;
-        node<T> *secondNode = nullptr;
-        if (one == 0) {
-            firstNode = first;
-        } else {
-            firstNode = first;
-            for (int i = 0; i < one; ++i) {
-                firstNode = firstNode->next;
-            }
+
+        if (firstItemIdx > secondItemIdx) {
+            std::swap(secondItemIdx, firstItemIdx);
         }
-        if (two == 0) {
-            secondNode = first;
-        } else {
-            secondNode = first;
-            for (int i = 0; i < two; ++i) {
-                secondNode = secondNode->next;
-            }
+
+        node<T>* firstNode = getNodeAt(firstItemIdx);
+        node<T>* secondNode = getNodeAt(secondItemIdx);
+
+        if (firstNode == nullptr || secondNode == nullptr) {
+         cout << "Nodes not found for swapping!" << endl;
+            return;
         }
-        T current = firstNode->item;
-        firstNode->item= secondNode->item;
-        secondNode->item= current;
+
+        if (firstNode->next == secondNode) {
+            // If the nodes are adjacent
+            node<T>* firstPrev = firstNode->pre;
+            node<T>* secondNext = secondNode->next;
+
+            if (firstPrev != nullptr) {
+                firstPrev->next = secondNode;
+            } else {
+                first = secondNode;
+            }
+
+            if (secondNext != nullptr) {
+                secondNext->pre = firstNode;
+            } else {
+               last= firstNode;
+            }
+
+            firstNode->next = secondNext;
+            firstNode->pre = secondNode;
+            secondNode->next = firstNode;
+            secondNode->pre = firstPrev;
+        } else {
+            // If the nodes are not adjacent
+            node<T>* firstPrev = firstNode->pre;
+            node<T>* firstNext = firstNode->next;
+            node<T>* secondPrev = secondNode->pre;
+            node<T>* secondNext = secondNode->next;
+
+            if (firstPrev != nullptr) {
+                firstPrev->next = secondNode;
+            } else {
+                first= secondNode;
+            }
+
+            if (firstNext != nullptr) {
+                firstNext->pre = secondNode;
+            }
+
+            if (secondPrev != nullptr) {
+                secondPrev->next = firstNode;
+            } else {
+               first= firstNode;
+            }
+
+            if (secondNext != nullptr) {
+                secondNext->pre = firstNode;
+            }
+
+            firstNode->pre= secondPrev;
+            firstNode->next = secondNext;
+            secondNode->pre= firstPrev;
+            secondNode->next = firstNext;
+        }
     }
 
     bool isExist(T element) {
@@ -204,11 +257,11 @@ public:
     }
     T retrieveAt(int index)  {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
         }
 
         if (index< 0||index >=length) {
-            throw out_of_range("out of range");
+            cout << "OUT OF RANGE" <<endl;
         }
 
         node<T>* current = first;
@@ -220,23 +273,23 @@ public:
     }
     bool isItemAtEqual(T element, int index) {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
             return false;
         }
 
         if (index< 0||index >=length) {
-            throw out_of_range("out of range");
+            cout << "OUT OF RANGE" <<endl;
             return false;
         }
         return retrieveAt(index) == element;
     }
-        void replaceAt(T newElement,int index) {
+    void replaceAt(T newElement,int index) {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout << "List is Empty" <<endl;
         }
 
         if (index <0|| index >= length) {
-            throw out_of_range("Index out of range");
+            cout << "OUT OF RANGE" <<endl;
         }
 
         node<T>* current = first;
@@ -266,6 +319,7 @@ public:
         }
         cout <<endl;
     }
+
 };
 
 int main() {
@@ -285,6 +339,14 @@ int main() {
     cout << "after inserting at tail: ";
     list.print();
 
+    cout << "after swapping 0 and 3: ";
+    list.swap(2,3);
+    list.print();
+
+    cout << "after swapping 3 and 2: ";
+    list.swap(1,0);
+    list.print();
+
 
 
     list.insertAt(25, 2);
@@ -299,15 +361,10 @@ int main() {
     list.removeAtTail();
     cout << "after removing at tail: ";
     list.print();
-
     list.removeAt(2);
     cout << "after removing index 2: ";
     list.print();
 
-    list.swap(0, 2);
-
-    cout << "after swapping elements at 0 and 2: ";
-    list.print();
 
 
     if (list.isExist(2)) {
@@ -322,10 +379,10 @@ int main() {
 
     if (list.isItemAtEqual(10, 1)) {
         cout << "Element at index 1 is equal to 10." <<endl;
-        }
+    }
     else {
         cout << "Element at index 1 is not equal to 10." <<endl;
-        }
+    }
 
     list.replaceAt(100, 2);
     cout << "after replacing index 2 with '100'"<<endl;
@@ -335,5 +392,6 @@ int main() {
     list.clear();
     cout<<"after clearing"<<endl;
     cout << "Is list empty? " << (list.isEmpty() ? "Yes" : "No") <<endl;
+    return 0;
 
 }
