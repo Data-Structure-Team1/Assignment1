@@ -126,11 +126,10 @@ public:
 
     void removeAt(int index) {
         if (isEmpty()) {
-            throw out_of_range("List is empty");
+            cout<<"List is Empty"<<endl;
         }
-
         if (index< 0||index >=length) {
-            throw out_of_range("out of range");
+            cout<<"Out of the Range"<<endl;
         }
         if (index == 0) {
             removeAtHead();
@@ -140,14 +139,19 @@ public:
             removeAtTail();
             return;
         }
-        node<T> *current = first;
-        for (int i = 0; i < index; ++i) {
+        node<T>* current = first->next;
+        node<T>* previous = first;
+
+        for (int i = 1; i < index; i++)
+        {
+            previous= current;
             current = current->next;
         }
-        current->pre->next = current->next;
-        current->next->pre = current->pre;
+        previous->next = current->next;
+        current->next->pre = previous;
         delete current;
         length--;
+
     }
 
     void swap(int one, int two) {
@@ -294,6 +298,10 @@ int main() {
     cout << "List size: " << list.linkedListSize() <<endl;
     list.removeAtTail();
     cout << "after removing at tail: ";
+    list.print();
+
+    list.removeAt(2);
+    cout << "after removing index 2: ";
     list.print();
 
     list.swap(0, 2);
