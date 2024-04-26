@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <chrono>
+#include <sstream>
+#include <cstring>
 
 using namespace std;
 
@@ -87,7 +89,12 @@ vector<Student<T>> readData(const string& filename);
 
 // Implement the writeData function for the Student class
 template <typename T>
-void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime);
+void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime) ;
+
+
+
+template <typename T>
+void showData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime);
 
 
 
@@ -153,6 +160,7 @@ void mergeSort(vector<Student<T>>& array, int l, int r) {
 // Implement the quickSort function for the Student class
 template<class T>
 void quickSort(vector<Student<T>>& arr) {
+
     quickSort(arr, 0, arr.size() - 1);
 }
 
@@ -192,6 +200,7 @@ void swap_quick(vector<Student<T>>& arr, unsigned int i, unsigned int j) {
 // Implement the CountSort function for the Student class
 template <typename T>
 void CountSort(vector<Student<T>>& students) {
+
     double maxGPA = Max(students);
 
     // Create count array
@@ -235,12 +244,24 @@ vector<Student<T>> readData(const string& filename) {
     }
 
     vector<Student<T>> students;
-    string id, name;
-    double gpa;
-    while (fin >> id >> name >> gpa) {
+    string line;
+    while (getline(fin, line)) {
+        // Skip empty lines
+        if (line.empty()) {
+            continue;
+        }
+        // Extract student data
+        stringstream ss(line);
+        string id, name;
+        double gpa;
+        if (!(ss >> id >> name >> gpa)) {
+            continue;
+        }
         students.emplace_back(id, name, gpa);
+
+
     }
-    fin.close();
+        fin.close();
     return students;
 }
 
@@ -265,6 +286,34 @@ void writeData(const string& filename, const vector<Student<T>>& students, const
 
     outFile.close();
 }
+template <typename T>
+void showData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime) {
+    // Open the file for reading
+    ifstream inFile(filename);
+    writeData(filename,students,algorithmName,elapsedTime);
+    // Check if the file was opened successfully
+    if (!inFile.is_open()) {
+        cerr << "Error opening file: " << filename << endl;
+        return;
+    }
+
+    // Display header information
+    cout << "Filename: " << filename << endl;
+    cout << "Sorting Algorithm: " << algorithmName << endl;
+    cout << "Elapsed Time: " << elapsedTime / 1000000 << " milliseconds" << endl;
+    cout << endl;
+
+    // Read and display the file contents
+    string line;
+    while (getline(inFile, line)) {
+        cout << line << endl;
+    }
+
+    // Close the file
+    inFile.close();
+}
+
+
 
 
 
@@ -293,6 +342,14 @@ int main() {
             cerr << "Invalid choice. Exiting..." << endl;
             return 1;
     }
+    readData<string>(filename);
+    readData<double>(filename);
+   /* for (const auto& student : studentsByName) {
+        cout << student.getID() << endl;
+       cout << student.getName() << endl;
+       cout << student.getGPA() << endl;
+        cout  << endl;
+    }*/
 
     cout << "Welcome to the Student System! You can sort the data based on names or GPAs." << endl;
     int algorithmNumber;
@@ -312,72 +369,85 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     double runTime = 0;
 
+
     switch (algorithmNumber) {
         case 1:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Insertion Sort";
             // Implement insertion sort
+            //insertionSort(studentsByName); // Assuming insertionSort function is implemented
             break;
         case 2:
+            start = chrono::high_resolution_clock::now();
+
             algorithmName = "Selection Sort";
             // Implement selection sort
+            //selectionSort(studentsByName); // Assuming selectionSort function is implemented
             break;
         case 3:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Bubble Sort";
             // Implement bubble sort
+            //bubbleSort(studentsByName); // Assuming bubbleSort function is implemented
             break;
         case 4:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Shell Sort";
             // Implement shell sort
+            //shellSort(studentsByName); // Assuming shellSort function is implemented
             break;
         case 5:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Merge Sort";
-            if (choice == 1) {
-                mergeSort(studentsByName, 0, studentsByName.size() - 1);
-                // Debug print sorted data
-                cout << "Sorted by name:" << endl;
-                writeData("SortedByName.txt", studentsByName, algorithmName, 0);
-            } else if (choice == 2) {
-                mergeSort(studentsByGPA, 0, studentsByGPA.size() - 1);
-                // Debug print sorted data
-                cout << "Sorted by GPA:" << endl;
-                writeData("SortedByGPA.txt", studentsByGPA, algorithmName, 0);
-            }
+            mergeSort(studentsByName, 0, studentsByName.size() - 1);
+            end = chrono::high_resolution_clock::now();
+
             break;
         case 6:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Quick Sort";
-            if (choice == 1) {
-                quickSort(studentsByName);
-            } else if (choice == 2) {
-                quickSort(studentsByGPA);
-            }
+            quickSort(studentsByName);
+            end = chrono::high_resolution_clock::now();
+
             break;
         case 7:
+            start = chrono::high_resolution_clock::now();
             algorithmName = "Count Sort";
-            if (choice == 1) {
-                CountSort(studentsByName);
-            } else if (choice == 2) {
-                CountSort(studentsByGPA);
-            }
+            CountSort(studentsByName);
+            end = chrono::high_resolution_clock::now();
+
             break;
         default:
+            start = chrono::high_resolution_clock::now();
             cerr << "Invalid input!" << endl;
             return 0;
     }
 
-    end = chrono::high_resolution_clock::now();
     runTime = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    switch (choice) {
-        case 1:
-            writeData("SortedByName.txt", studentsByName, algorithmName + " (by name)", runTime);
-            break;
-        case 2:
-            writeData("SortedByGPA.txt", studentsByGPA, algorithmName + " (by GPA)", runTime);
-            break;
-        default:
-            cerr << "Invalid choice. Exiting..." << endl;
-            return 1;
-    }
+    // Print sorted data to console
+    writeData("sortedByName.txt", studentsByName, algorithmName, runTime);
+    showData( "sortedByName.txt", studentsByName, algorithmName, runTime) ;
+
+
+
+
+
+
+        /*// Write the sorted data to the output file
+        switch (choice) {
+            case 1:
+                writeData("SortedByName.txt", studentsByName, algorithmName, runTime);
+                break;
+            case 2:
+                writeData("SortedByGPA.txt", studentsByGPA, algorithmName, runTime);
+                break;
+            default:
+                cerr << "Invalid choice. Exiting..." << endl;
+                return 1;
+        }*/
+
+
 
     return 0;
 }
