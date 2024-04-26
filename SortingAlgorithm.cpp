@@ -273,9 +273,9 @@ void writeData(const string& filename, const vector<Student<T>>& students, const
         cerr << "Error: Unable to open the file " << filename << endl;
         exit(EXIT_FAILURE);
     }
-    outFile << "Algorithm name: " << algorithmName << endl;
-    outFile << "Running Time (in milliseconds): " << elapsedTime << endl;
-    outFile << "Sorted Student Elements:" << endl;
+   outFile << "Algorithm: " << algorithmName << endl;
+outFile << "Running Time: " << elapsedTime << " milliseconds" << endl;
+outFile << "Sorted Student Elements:" << endl;
 
     for (const auto& student : students) {
         outFile << student.getID() << endl;
@@ -290,7 +290,7 @@ template <typename T>
 void showData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime) {
     // Open the file for reading
     ifstream inFile(filename);
-    writeData(filename,students,algorithmName,elapsedTime);
+    
     // Check if the file was opened successfully
     if (!inFile.is_open()) {
         cerr << "Error opening file: " << filename << endl;
@@ -342,8 +342,7 @@ int main() {
             cerr << "Invalid choice. Exiting..." << endl;
             return 1;
     }
-    readData<string>(filename);
-    readData<double>(filename);
+   
    /* for (const auto& student : studentsByName) {
         cout << student.getID() << endl;
        cout << student.getName() << endl;
@@ -401,7 +400,7 @@ int main() {
             algorithmName = "Merge Sort";
             mergeSort(studentsByName, 0, studentsByName.size() - 1);
             end = chrono::high_resolution_clock::now();
-
+  writeData("sortedByNAME.txt", studentsByName, algorithmName, runTime);
             break;
         case 6:
             start = chrono::high_resolution_clock::now();
@@ -426,8 +425,8 @@ int main() {
     runTime = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
     // Print sorted data to console
-    writeData("sortedByName.txt", studentsByName, algorithmName, runTime);
-    showData( "sortedByName.txt", studentsByName, algorithmName, runTime) ;
+  
+    showData( "sortedByNAME.txt", studentsByName, algorithmName, runTime) ;
 
 
 
