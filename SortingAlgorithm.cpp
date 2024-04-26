@@ -6,7 +6,8 @@
 
 using namespace std;
 
-template<class T>
+// Define the Student class
+template<typename T>
 class Student {
 private:
     string name;
@@ -14,76 +15,83 @@ private:
     double gpa;
 
 public:
+    // Constructors
     Student() : id(""), name(""), gpa(0.0) {}
     Student(string id, string name, double gpa) : id(id), name(name), gpa(gpa) {}
     Student(const Student &other) : id(other.id), name(other.name), gpa(other.gpa) {}
 
-    bool operator<(const Student& student1) {
-        return name < student1.name;
+    // Member functions
+    bool operator<(const Student& other) const {
+        return this->name < other.name;
     }
 
-    string getID() {
+    // Getter functions
+    string getID() const {
         return id;
     }
 
-    string getN() {
+    string getName() const {
         return name;
     }
 
-    double getGPA() const{
-        return gpa ;
+    double getGPA() const {
+        return gpa;
     }
 
+    // Static member functions (declaration only)
     static int getCount();
-
     static void create(string id, string name, double gpa);
 };
 
+// Implement the create function for the Student class
 template <typename T>
 void Student<T>::create(string id, string name, double gpa) {
     Student<T>(id, name, gpa);
 }
 
+// Implement the quickSort function for the Student class
 template <typename T>
 void quickSort(vector<Student<T>>& arr);
 
+// Implement the quickSort function for the Student class with l and h parameters
 template <typename T>
 void quickSort(vector<Student<T>>& arr, int l, int h);
 
+// Implement the partition function for the Student class
 template <typename T>
 int partition(vector<Student<T>>& arr, int l, int h);
 
+// Implement the swap_quick function for the Student class
 template <typename T>
 void swap_quick(vector<Student<T>>& arr, unsigned int i, unsigned int j);
 
+// Implement the mergeSort function for the Student class
 template <typename T>
 void mergeSort(vector<Student<T>>& array, int l, int r);
 
+// Implement the merge function for the Student class
 template<class T>
 void merge(vector<Student<T>>& array, int l, int m, int r);
 
+// Implement the CountSort function for the Student class
 template <typename T>
 void CountSort(vector<Student<T>>& students);
 
+// Implement the Max function for the Student class
 template <typename T>
 double Max(const vector<Student<T>>& students);
 
+// Implement the readData function for the Student class
 template <typename T>
 vector<Student<T>> readData(const string& filename);
 
+// Implement the writeData function for the Student class
 template <typename T>
-void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, int comparisons, double elapsedTime);
+void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime);
 
-int comparisonCount = 0;
 
-void resetComparisonCount() {
-    comparisonCount = 0;
-}
 
-int getComparisonCount() {
-    return comparisonCount;
-}
-
+// Implement the merge function for the Student class
 template<class T>
 void merge(vector<Student<T>>& array, int l, int m, int r) {
     int i = 0, j = 0, k = l;
@@ -127,6 +135,7 @@ void merge(vector<Student<T>>& array, int l, int m, int r) {
     }
 }
 
+// Implement the mergeSort function for the Student class
 template<class T>
 void mergeSort(vector<Student<T>>& array, int l, int r) {
     if (l < r) {
@@ -141,12 +150,13 @@ void mergeSort(vector<Student<T>>& array, int l, int r) {
     }
 }
 
-template <typename T>
+// Implement the quickSort function for the Student class
+template<class T>
 void quickSort(vector<Student<T>>& arr) {
-    resetComparisonCount();
     quickSort(arr, 0, arr.size() - 1);
 }
 
+// Implement the quickSort function for the Student class with l and h parameters
 template <typename T>
 void quickSort(vector<Student<T>>& arr, int l, int h) {
     if (l < h) {
@@ -156,6 +166,7 @@ void quickSort(vector<Student<T>>& arr, int l, int h) {
     }
 }
 
+// Implement the partition function for the Student class
 template <typename T>
 int partition(vector<Student<T>>& arr, int l, int h) {
     Student<T> pivot = arr[h];
@@ -165,12 +176,12 @@ int partition(vector<Student<T>>& arr, int l, int h) {
             swap_quick(arr, i, j);
             i++;
         }
-        comparisonCount++;
     }
     swap_quick(arr, i, h);
     return i;
 }
 
+// Implement the swap_quick function for the Student class
 template <typename T>
 void swap_quick(vector<Student<T>>& arr, unsigned int i, unsigned int j) {
     Student<T> temp = arr[i];
@@ -178,6 +189,7 @@ void swap_quick(vector<Student<T>>& arr, unsigned int i, unsigned int j) {
     arr[j] = temp;
 }
 
+// Implement the CountSort function for the Student class
 template <typename T>
 void CountSort(vector<Student<T>>& students) {
     double maxGPA = Max(students);
@@ -187,21 +199,20 @@ void CountSort(vector<Student<T>>& students) {
 
     // Update count array values based on student GPAs
     for (const auto& student : students) {
-        count[static_cast<int>(student.getGPA())]++; // Corrected from students.getGPA() to student.getGPA()
+        count[static_cast<int>(student.getGPA())]++;
     }
 
     // Update students vector with sorted elements
     int i = 0;
     for (int j = 0; j <= static_cast<int>(maxGPA); ++j) {
         while (count[j] > 0) {
-            students[i++] = Student<T>("", "", j); // Dummy constructor, you might want to provide real data here
+            students[i++] = Student<T>(students[0].getID(), students[0].getName(), j); // Use the first student's ID and name, and GPA of j
             count[j]--;
         }
     }
 }
 
-
-template <typename T>
+template <class T>
 double Max(const vector<Student<T>>& students) {
     double max = -32768.0; // Assuming GPAs are non-negative
     for (const auto& student : students) {
@@ -213,6 +224,8 @@ double Max(const vector<Student<T>>& students) {
     return max;
 }
 
+
+// Implement the readData function for the Student class
 template <typename T>
 vector<Student<T>> readData(const string& filename) {
     ifstream fin(filename);
@@ -231,47 +244,54 @@ vector<Student<T>> readData(const string& filename) {
     return students;
 }
 
+// Implement the writeData function for the Student class
 template <typename T>
-void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, int comparisons, double elapsedTime) {
-    ofstream fout(filename);
-    if (!fout) {
-        cerr << "Error in opening the file " << filename << endl;
-        return;
+void writeData(const string& filename, const vector<Student<T>>& students, const string& algorithmName, double elapsedTime) {
+    ofstream outFile(filename);
+    if (!outFile) {
+        cerr << "Error: Unable to open the file " << filename << endl;
+        exit(EXIT_FAILURE);
     }
-
-    fout << "Algorithm name: " << algorithmName << endl;
-    fout << "Number of comparisons: " << comparisons << endl;
-    fout << "Running Time (in milliseconds): " << elapsedTime << endl;
-    fout << "Sorted Student Elements:" << endl;
+    outFile << "Algorithm name: " << algorithmName << endl;
+    outFile << "Running Time (in milliseconds): " << elapsedTime << endl;
+    outFile << "Sorted Student Elements:" << endl;
 
     for (const auto& student : students) {
-        if constexpr (is_same<T, string>::value) {
-            fout << student.getN() << " " << student.get_gpa() << endl;
-        } else if constexpr (is_same<T, double>::value) {
-            fout << student.get_gpa() << " " << student.getN() << endl;
-        }
+        outFile << student.getID() << endl;
+        outFile << student.getName() << endl;
+        outFile << student.getGPA() << endl;
+        outFile << endl;
     }
-    fout.close();
+
+    outFile.close();
 }
 
+
+
+
+
+
 int main() {
-    int x;
-    cout << "Do you want to sort data by :\n"
-         << "1- Names\n"
-         << "2- GPA" << endl;
-    cin >> x;
+    int choice;
+    cout << "How would you like to sort the data?" << endl;
+    cout << "1. Sort by names" << endl;
+    cout << "2. Sort by GPAs" << endl;
+    cin >> choice;
 
     string filename = "students.txt";
-    vector<Student<string>> students_str; // For sorting by names
-    vector<Student<double>> students_gpa; // For sorting by GPAs
+    vector<Student<string>> studentsByName;
+    vector<Student<double>> studentsByGPA;
 
-    if (x == 1) {
-        students_str = readData<string>(filename);
-    } else if (x == 2) {
-        students_gpa = readData<double>(filename);
-    } else {
-        cout << "Invalid choice!" << endl;
-        return 0;
+    switch (choice) {
+        case 1:
+            studentsByName = readData<string>(filename);
+            break;
+        case 2:
+            studentsByGPA = readData<double>(filename);
+            break;
+        default:
+            cerr << "Invalid choice. Exiting..." << endl;
+            return 1;
     }
 
     cout << "Welcome to the Student System! You can sort the data based on names or GPAs." << endl;
@@ -283,54 +303,81 @@ int main() {
          << "4- Shell Sort\n"
          << "5- Merge Sort\n"
          << "6- Quick Sort\n"
-         << "7- Count Sort" << endl;
-    cin >> algorithmNumber;
+         << "7- Count Sort\n"
+         << "Your choice :" << endl;
 
-    auto start = chrono::system_clock::now();
-    switch(algorithmNumber) {
+    cin >> algorithmNumber;
+    string algorithmName;
+    auto start = chrono::high_resolution_clock::now();
+    auto end = chrono::high_resolution_clock::now();
+    double runTime = 0;
+
+    switch (algorithmNumber) {
         case 1:
+            algorithmName = "Insertion Sort";
             // Implement insertion sort
             break;
         case 2:
+            algorithmName = "Selection Sort";
             // Implement selection sort
             break;
         case 3:
+            algorithmName = "Bubble Sort";
             // Implement bubble sort
             break;
         case 4:
+            algorithmName = "Shell Sort";
             // Implement shell sort
             break;
         case 5:
-            if (x == 1) {
-                mergeSort(students_str, 0, students_str.size() - 1);
-            } else if (x == 2) {
-                mergeSort(students_gpa, 0, students_gpa.size() - 1);
+            algorithmName = "Merge Sort";
+            if (choice == 1) {
+                mergeSort(studentsByName, 0, studentsByName.size() - 1);
+                // Debug print sorted data
+                cout << "Sorted by name:" << endl;
+                writeData("SortedByName.txt", studentsByName, algorithmName, 0);
+            } else if (choice == 2) {
+                mergeSort(studentsByGPA, 0, studentsByGPA.size() - 1);
+                // Debug print sorted data
+                cout << "Sorted by GPA:" << endl;
+                writeData("SortedByGPA.txt", studentsByGPA, algorithmName, 0);
             }
             break;
         case 6:
-            int h;
-            cout << "Choose the pivot index: ";
-            cin >> h;
-            if (x == 1) {
-                quickSort(students_str);
-            } else if (x == 2) {
-                quickSort(students_gpa);
+            algorithmName = "Quick Sort";
+            if (choice == 1) {
+                quickSort(studentsByName);
+            } else if (choice == 2) {
+                quickSort(studentsByGPA);
             }
             break;
         case 7:
-            if (x == 1) {
-                CountSort(students_str);
-            } else if (x == 2) {
-                CountSort(students_gpa);
+            algorithmName = "Count Sort";
+            if (choice == 1) {
+                CountSort(studentsByName);
+            } else if (choice == 2) {
+                CountSort(studentsByGPA);
             }
             break;
         default:
-            cout << "Invalid input!" << endl;
+            cerr << "Invalid input!" << endl;
             return 0;
     }
 
-    auto end = chrono::system_clock::now();
-    cout << "Sorting time: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << "ms" << endl;
+    end = chrono::high_resolution_clock::now();
+    runTime = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+
+    switch (choice) {
+        case 1:
+            writeData("SortedByName.txt", studentsByName, algorithmName + " (by name)", runTime);
+            break;
+        case 2:
+            writeData("SortedByGPA.txt", studentsByGPA, algorithmName + " (by GPA)", runTime);
+            break;
+        default:
+            cerr << "Invalid choice. Exiting..." << endl;
+            return 1;
+    }
 
     return 0;
 }
