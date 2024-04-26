@@ -240,39 +240,52 @@ public:
         return count;
     }
     
-    void swap(int a, int b) {
-        if ( a== b) {
-            return;
-        }
-        if (a < 0 || a >= count || b < 0 || b >= count) {
-            cout << "OUT OF RANGE" <<endl;
-        }
-        if (a > b) {
-            swap(b, a);
-            return;
-        }
-        Node<T> *firstNode = NULL;
-        Node<T> *secondNode = NULL;
-        if (a == 0) {
-            firstNode = first;
-        } else {
-            firstNode = first;
-            for (int i = 0; i < a; ++i) {
-                firstNode = firstNode->next;
-            }
-        }
-        if (b == 0) {
-            secondNode = first;
-        } else {
-            secondNode = first;
-            for (int i = 0; i < b; ++i) {
-                secondNode = secondNode->next;
-            }
-        }
-        T current = firstNode->data;
-        firstNode->data= secondNode->data;
-        secondNode->data= current;
+    void swap(int IdxA, int IdxB) {
+    if (IdxA < 0 || IdxA >= size || IdxB < 0 || IdxB >= size)
+        return;
+    if (IdxA == IdxB)
+        return;
+    
+    Node<T>* nodeA = first;
+    for (int i = 0; i < IdxA; i++) {
+        nodeA = nodeA->next;
     }
+    Node<T>* nodeB = first;
+    for (int i = 0; i < IdxB; i++) {
+        nodeB = nodeB->next;
+    }
+
+    // Update prev pointers
+    if (nodeA->prev)
+        nodeA->prev->next = nodeB;
+    else
+        first = nodeB;
+
+    if (nodeB->prev)
+        nodeB->prev->next = nodeA;
+    else
+        first = nodeA;
+
+    // Swap next pointers
+    Node<T>* tempNext = nodeB->next;
+    nodeB->next = nodeA->next;
+    nodeA->next = tempNext;
+
+    // Swap prev pointers
+    Node<T>* tempPrev = nodeB->prev;
+    nodeB->prev = nodeA->prev;
+    nodeA->prev = tempPrev;
+
+    // Update last pointer if necessary
+    if (IdxA == 0)
+        last = nodeB;
+    else if (IdxB == 0)
+        last = nodeA;
+    else if (IdxA == size - 1)
+        last = nodeA;
+    else if (IdxB == size - 1)
+        last = nodeB;
+}
 
 
     void print() {
