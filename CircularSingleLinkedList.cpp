@@ -235,38 +235,45 @@ public:
         return count;
     }
     
-    void swap(int a, int b) {
-        if ( a== b) {
+    void swap(int IdxA, int IdxB) {
+        if (IdxA < 0 || IdxA >= size || IdxB < 0 || IdxB >= size)
             return;
-        }
-        if (a < 0 || a >= count || b < 0 || b >= count) {
-            cout << "OUT OF RANGE" <<endl;
-        }
-        if (a > b) {
-            swap(b, a);
+        if (IdxA == IdxB)
             return;
+        Node<T>* prevA = NULL;
+        Node<T>* nodeA = first;
+        for (int i = 0; i < IdxA; i++) {
+            prevA = nodeA;
+            nodeA = nodeA->next;
         }
-        Node<T> *firstNode = NULL;
-        Node<T> *secondNode = NULL;
-        if (a == 0) {
-            firstNode = first;
-        } else {
-            firstNode = first;
-            for (int i = 0; i < a; ++i) {
-                firstNode = firstNode->next;
-            }
+        Node<T>* prevB = NULL;
+        Node<T>* nodeB = first;
+        for (int i = 0; i < IdxB; i++) {
+            prevB = nodeB;
+            nodeB = nodeB->next;
         }
-        if (b == 0) {
-            secondNode = first;
-        } else {
-            secondNode = first;
-            for (int i = 0; i < b; ++i) {
-                secondNode = secondNode->next;
-            }
-        }
-        T current = firstNode->data;
-        firstNode->data= secondNode->data;
-        secondNode->data= current;
+        if (prevA)
+            prevA->next = nodeB;
+        else
+            first = nodeB;
+
+        if (prevB)
+            prevB->next = nodeA;
+        else
+            first = nodeA;
+
+        Node<T>* temp = nodeB->next;
+        nodeB->next = nodeA->next;
+        nodeA->next = temp;
+
+        if (IdxA == 0)
+            last = nodeB;
+        else if (IdxB == 0)
+            last = nodeA;
+        else if (IdxA == size - 1)
+            last = nodeA;
+        else if (IdxB == size - 1)
+            last = nodeB;
     }
 
 
