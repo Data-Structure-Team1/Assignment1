@@ -276,15 +276,16 @@ public:
     nodeB->prev = nodeA->prev;
     nodeA->prev = tempPrev;
 
-    // Update last pointer if necessary
+    // Update first and last pointer if necessary
     if (IdxA == 0)
-        last = nodeB;
+    first = nodeB;
     else if (IdxB == 0)
-        last = nodeA;
-    else if (IdxA == size - 1)
-        last = nodeA;
+    first = nodeA;
+    if (IdxA == size - 1)
+    last = nodeB;
     else if (IdxB == size - 1)
-        last = nodeB;
+    last = nodeA;
+
 }
 
 
