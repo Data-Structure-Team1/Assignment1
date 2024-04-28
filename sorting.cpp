@@ -22,18 +22,18 @@ void InsertionSort(T arr[], int n) {
         {
             num_comparisons++;
             arr[j] = arr[j - 1];
-            arr[j-1] = temp;
+            arr[j - 1] = temp;
         }
 
     }
-    cout<<"number of comparisons: "<<num_comparisons<<endl;
+    cout << "number of comparisons: " << num_comparisons << endl;
 
 
 }
 //Selection sort
 template<class T>
 void selectionSort(T arr[], int n) {
-    int num_comparisons =0;
+    int num_comparisons = 0;
     for (int i = 0; i < n - 1; i++)
     {
         T temp = i;
@@ -47,7 +47,7 @@ void selectionSort(T arr[], int n) {
         swap(arr[i], arr[temp]);
 
     }
-    cout<<"number of comparisons: "<<num_comparisons<<endl;
+    cout << "number of comparisons: " << num_comparisons << endl;
 
 
 }
@@ -55,11 +55,11 @@ void selectionSort(T arr[], int n) {
 //Bubble sort
 template<class T>
 void BubbleSort(T arr[], int n) {
-    int num_comparisons =0;
+    int num_comparisons = 0;
     bool flage = true;
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n - 1; i++)
     {
-        for (int j = 0; j < n-i-1; j++)
+        for (int j = 0; j < n - i - 1; j++)
         {
             if (arr[j] > arr[j + 1]) {
                 num_comparisons++;
@@ -71,21 +71,21 @@ void BubbleSort(T arr[], int n) {
         if (flage)
             break;
     }
-    cout<<"number of comparisons: "<<num_comparisons<<endl;
+    cout << "number of comparisons: " << num_comparisons << endl;
 }
 
 //Shall sort
 template <class T>
-void shellSort(T arr[], int n){
-    int num_comparisons =0;
+void shellSort(T arr[], int n) {
+    int num_comparisons = 0;
     for (int gap = n / 2; gap > 0; gap /= 2)
     {
 
-        for (int i = gap; i < n; i ++)
+        for (int i = gap; i < n; i++)
         {
 
             T temp = arr[i];
-            int j ;
+            int j;
             for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
                 arr[j] = arr[j - gap];
                 num_comparisons++;
@@ -95,7 +95,7 @@ void shellSort(T arr[], int n){
             arr[j] = temp;
         }
     }
-    cout<<"number of comparisons: "<<num_comparisons<<endl;
+    cout << "number of comparisons: " << num_comparisons << endl;
 
 }
 //merge sort
@@ -119,7 +119,8 @@ void merge(T arr[], size_t l, size_t m, size_t r) {
     while (i < n1 && j < n2) {
         if (larr[i] <= rarr[j]) {
             arr[k++] = larr[i++];
-        } else {
+        }
+        else {
             arr[k++] = rarr[j++];
         }
     }
@@ -247,33 +248,33 @@ double Max(T* data, int size) {
 
 template<class T>
 void print(T arr[], int n) {
-    for (int i = 0; i <n ; i++)
+    for (int i = 0; i < n; i++)
     {
         cout << arr[i] << " ";
     }
     cout << endl;
 }
 
-class student{
+class student {
     string id;
     string name;
     double gpa;
 
 public:
-    student():id(""),name(""),gpa(0.0){};//default constructor to initilize array of this object
-    student(string id,string name,double gpa);
-    student(const student &other);
-    bool operator <<(const student& student1){
+    student() :id(""), name(""), gpa(0.0) {};//default constructor to initilize array of this object
+    student(string id, string name, double gpa);
+    student(const student& other);
+    bool operator <<(const student& student1) {
         return name < student1.name;
     };
 
-    string get_id(){
+    string get_id() {
         return id;
     }
-    string get_name(){
+    string get_name() {
         return name;
     }
-   double get_gpa(){
+    double get_gpa() {
         return gpa;
 
     }
@@ -282,21 +283,21 @@ public:
 
 };
 
-student::student(string id,string name, double gpa) {
+student::student(string id, string name, double gpa) {
     this->id = id;
-    this->name=name;
-    this->gpa=gpa;
+    this->name = name;
+    this->gpa = gpa;
 }
 
-student::student(const student &other) {
-    id=other.id;
-    name=other.name;
-    gpa=other.gpa;
+student::student(const student& other) {
+    id = other.id;
+    name = other.name;
+    gpa = other.gpa;
 }
 
 
-void InsertionSortBY_NAME(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void InsertionSortBY_NAME(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
 
     for (int i = 1; i < n; i++)
     {
@@ -306,36 +307,36 @@ void InsertionSortBY_NAME(student arr[], int n,ofstream &of) {
         {
             num_comparisons++;
             arr[j] = arr[j - 1];
-            arr[j-1] = temp;
+            arr[j - 1] = temp;
         }
 
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 
 
 }
 
-void InsertionSortBY_GPA(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void InsertionSortBY_GPA(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
     for (int i = 1; i < n; i++)
     {
-        int j = i-1;
+        int j = i - 1;
         student temp = arr[i];
-        for ( j=i-1; j >= 0 && temp.get_gpa() > arr[j].get_gpa(); j--)
+        for (j = i - 1; j >= 0 && temp.get_gpa() > arr[j].get_gpa(); j--)
         {
             num_comparisons++;
-            arr[j+1] = arr[j];
+            arr[j + 1] = arr[j];
 
         }
-        arr[j+1] = temp;
+        arr[j + 1] = temp;
 
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 
 }
 
-void selectionSortBy_NAME(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void selectionSortBy_NAME(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
     for (int i = 0; i < n - 1; i++)
     {
         int temp = i;
@@ -349,10 +350,10 @@ void selectionSortBy_NAME(student arr[], int n,ofstream &of) {
 
         swap(arr[i], arr[temp]);
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 }
-void selectionSortBy_GPA(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void selectionSortBy_GPA(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
     for (int i = 0; i < n - 1; i++)
     {
         int temp = i;
@@ -366,14 +367,14 @@ void selectionSortBy_GPA(student arr[], int n,ofstream &of) {
         swap(arr[i], arr[temp]);
 
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 }
-void BubbleSortBY_NAME(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void BubbleSortBY_NAME(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
     bool flage = true;
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n - 1; i++)
     {
-        for (int j = 0; j < n-i-1; j++)
+        for (int j = 0; j < n - i - 1; j++)
         {
             if (arr[j].get_name() > arr[j + 1].get_name()) {
                 swap(arr[j], arr[j + 1]);
@@ -385,14 +386,14 @@ void BubbleSortBY_NAME(student arr[], int n,ofstream &of) {
         if (flage)
             break;
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 }
-void BubbleSortBY_GPA(student arr[], int n,ofstream &of) {
-    int num_comparisons=0;
+void BubbleSortBY_GPA(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
     bool flage = true;
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n - 1; i++)
     {
-        for (int j = 0; j < n-i-1; j++)
+        for (int j = 0; j < n - i - 1; j++)
         {
             if (arr[j].get_gpa() < arr[j + 1].get_gpa()) {
                 swap(arr[j], arr[j + 1]);
@@ -403,17 +404,17 @@ void BubbleSortBY_GPA(student arr[], int n,ofstream &of) {
         }
         if (flage)
             break;
-    }of<<"number of comparisons: "<<num_comparisons<<endl;
+    }of << "number of comparisons: " << num_comparisons << endl;
 }
 
 
-void shellSortBY_NAME(student arr[], int n,ofstream &of){
-    int num_comparisons=0;
-    for (int gap = n / 2; gap > 0; gap /= 2){
+void shellSortBY_NAME(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
+    for (int gap = n / 2; gap > 0; gap /= 2) {
 
-        for (int i = gap; i < n; i ++){
+        for (int i = gap; i < n; i++) {
             student temp = arr[i];
-            int j ;
+            int j;
             for (j = i; j >= gap && arr[j - gap].get_name() > temp.get_name(); j -= gap) {
                 arr[j] = arr[j - gap];
                 num_comparisons++;
@@ -421,16 +422,16 @@ void shellSortBY_NAME(student arr[], int n,ofstream &of){
             arr[j] = temp;
         }
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 }
-void shellSortBY_GPA(student arr[], int n,ofstream &of){
-    int num_comparisons=0;
-    for (int gap = n / 2; gap > 0; gap /= 2){
-        for (int i = gap; i < n; i ++)
+void shellSortBY_GPA(student arr[], int n, ofstream& of) {
+    int num_comparisons = 0;
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++)
         {
 
             student temp = arr[i];
-            int j ;
+            int j;
             for (j = i; j >= gap && arr[j - gap].get_gpa() < temp.get_gpa(); j -= gap) {
                 arr[j] = arr[j - gap];
                 num_comparisons++;
@@ -439,23 +440,23 @@ void shellSortBY_GPA(student arr[], int n,ofstream &of){
             arr[j] = temp;
         }
     }
-    of<<"number of comparisons: "<<num_comparisons<<endl;
+    of << "number of comparisons: " << num_comparisons << endl;
 }
-void printArray(student arr[], int n){//print result in the console
-    for (int i=0;i<n;i++){
-        cout<<"NAME: "<<arr[i].get_name()<<endl;
-        cout<<"ID: "<<arr[i].get_id()<<endl;
-        cout<<"GPA: "<<arr[i].get_gpa()<<endl;
-        cout<<endl;
+void printArray(student arr[], int n) {//print result in the console
+    for (int i = 0; i < n; i++) {
+        cout << "NAME: " << arr[i].get_name() << endl;
+        cout << "ID: " << arr[i].get_id() << endl;
+        cout << "GPA: " << arr[i].get_gpa() << endl;
+        cout << endl;
     }
 }
 
-void printInTXT(ofstream &of , student arr[], int n){//prints result in output file
-    for (int i=0;i<n;i++){
-        of<<arr[i].get_name()<<endl;
-        of<<arr[i].get_id()<<endl;
-        of<<arr[i].get_gpa()<<endl;
-        of<<endl;
+void printInTXT(ofstream& of, student arr[], int n) {//prints result in output file
+    for (int i = 0; i < n; i++) {
+        of << arr[i].get_name() << endl;
+        of << arr[i].get_id() << endl;
+        of << arr[i].get_gpa() << endl;
+        of << endl;
     }
 }
 
@@ -576,7 +577,8 @@ void merge_ByGPA(student arr[], size_t l, size_t m, size_t r) {
     while (i < n1 && j < n2) {
         if (larr[i].get_gpa() >= rarr[j].get_gpa()) {
             arr[k++] = larr[i++];
-        } else {
+        }
+        else {
             arr[k++] = rarr[j++];
         }
     }
@@ -628,12 +630,13 @@ void merge_ByNAME(student arr[], size_t l, size_t m, size_t r) {
     for (size_t j = 0; j < n2; j++)
         rarr[j] = arr[m + 1 + j];
 
-// Merge the temporary arrays back into arr[l..r]
+    // Merge the temporary arrays back into arr[l..r]
     size_t i = 0, j = 0, k = l;
     while (i < n1 && j < n2) {
         if (larr[i].get_name() <= rarr[j].get_name()) {
             arr[k++] = larr[i++];
-        } else {
+        }
+        else {
             arr[k++] = rarr[j++];
         }
     }
@@ -705,8 +708,12 @@ int main() {
     ifstream inputFile("C:\\data structure\\students.txt");// opens students txt file
     int stud_num;
     inputFile >> stud_num;//this will read the first line of the file which is the number of students obj
-    student stud[stud_num];//array of students
+    //array of students
     if (!inputFile) cout << "error opening the file" << endl;
+
+    // Dynamic allocation of stud array
+    student* stud = new student[stud_num];
+
 
 
     for (int i = 0; i < stud_num; i++) {//this will loop on every single line right after the first line read in int stud_num
@@ -719,11 +726,10 @@ int main() {
         stud[i] = student(id, name, gpa);//then it will store each data of a student in one obj of this student
     }
 
-    student arr_copy[stud_num];//coping array to get to original non-sorted array whenever we measure
-    for (int i = 0; i < stud_num; i++) {// different type of sorting
+    student* arr_copy = new student[stud_num];
+    for (int i = 0; i < stud_num; ++i) {
         arr_copy[i] = stud[i];
-    }
-
+    };
 
     inputFile.close();
 
@@ -880,12 +886,12 @@ int main() {
     printInTXT(outFileGPA, arr_copy, stud_num);
 
 
-    //deallocate the array
-    for (int i = 0; i < stud; i++)
-        delete[] arr_copy[i];
+    // Clean up: deallocate memory
+    delete[] stud;
     delete[] arr_copy;
-}
 
+    return 0;
+}
 
 
 
