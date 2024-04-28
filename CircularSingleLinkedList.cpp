@@ -267,13 +267,14 @@ public:
         nodeA->next = temp;
 
         if (IdxA == 0)
-            last = nodeB;
-        else if (IdxB == 0)
-            last = nodeA;
-        else if (IdxA == size - 1)
-            last = nodeA;
-        else if (IdxB == size - 1)
-            last = nodeB;
+    first = nodeB;
+else if (IdxB == 0)
+    first = nodeA;
+if (IdxA == size - 1)
+    last = nodeB;
+else if (IdxB == size - 1)
+    last = nodeA;
+
     }
 
 
