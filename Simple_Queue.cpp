@@ -8,12 +8,12 @@ struct node {
 };
 
 template <class T>
-class CircularQueueLinkedListType {
+class SimpleQueueLinkedListType {
     node<T> *front;
     node<T> *rear;
     int length;
 public:
-    CircularQueueLinkedListType() {
+   SimpleQueueLinkedListType() {
         front = nullptr;
         rear = nullptr;
         length = 0;
@@ -36,7 +36,8 @@ public:
     }
     void dequeue(){
         if (isEmpty()) {
-            throw out_of_range("List is  already empty");
+            cout<<"List is already empty"<<endl;
+            return;
         }
         if(front==rear){
             rear=front= nullptr;
@@ -52,13 +53,16 @@ public:
     }
         T first(){
             if (isEmpty()) {
-                throw out_of_range("List is empty");
+                cout<<"List is already empty"<<endl;
             }
             else{
                return front->item;
             }
         }
     void clear() {
+       if (isEmpty()){
+           return;
+       }
         while (front != nullptr) {
             node<T>* current = front;
             front = front->next;
@@ -82,7 +86,7 @@ public:
     }
 };
 int main() {
-    CircularQueueLinkedListType<int> queue;
+    SimpleQueueLinkedListType<int> queue;
     queue.enqueue(10);
     queue.enqueue(20);
     queue.enqueue(30);
@@ -97,6 +101,7 @@ int main() {
     if (queue.isEmpty()) {
         cout << "Queue is empty after clear" << endl;
     }
+
 }
 
 
