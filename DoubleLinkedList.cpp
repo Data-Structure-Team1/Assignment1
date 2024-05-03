@@ -1,10 +1,12 @@
 #include <iostream>
+
 using namespace std;
+
 template <class T>
 struct node {
     T item;
-    node *next;
-    node *pre;
+    node<T> *next;
+    node<T> *pre;
     node(T data) : item(data), next(nullptr), pre(nullptr) {}
 };
 
@@ -19,12 +21,9 @@ public:
         last = nullptr;
         length = 0;
     }
-    ~doublyLinkedList(){
-        while (first!= nullptr){
-            node<T>* current=first;
-            first=first->next;
-            delete current;
-        }
+
+    ~doublyLinkedList() {
+        clear();
     }
 
     bool isEmpty() const {
@@ -32,29 +31,24 @@ public:
     }
 
     void insertAtHead(T element) {
-        node<T> *newNode = new node(element);
+        node<T> *newNode = new node<T>(element);
         if (isEmpty()) {
             first = last = newNode;
-            newNode->next = newNode->pre = nullptr;
         } else {
             newNode->next = first;
-            newNode->pre = nullptr;
             first->pre = newNode;
             first = newNode;
         }
         length++;
     }
 
-//
     void insertAtTail(T element) {
-        node<T> *newNode = new node(element);
+        node<T> *newNode = new node<T>(element);
         if (isEmpty()) {
             first = last = newNode;
-            newNode->next = newNode->pre = nullptr;
         } else {
-            newNode->next = nullptr;
-            newNode->pre = last;
             last->next = newNode;
+            newNode->pre = last;
             last = newNode;
         }
         length++;
@@ -62,96 +56,95 @@ public:
 
     void insertAt(T element, int index) {
         if (isEmpty()) {
-            cout << "List is Empty" <<endl;
+            cout << "List is Empty" << endl;
+            return;
         }
 
-        if (index< 0||index >=length) {
-            cout << "OUT OF RANGE" <<endl;
+        if (index < 0 || index >= length) {
+            cout << "OUT OF RANGE" << endl;
+            return;
         }
-        else {
-            node<T> *newNode = new node(element);
-            if (index == 0) {
-                insertAtHead(element);
+
+        node<T> *newNode = new node<T>(element);
+        if (index == 0) {
+            insertAtHead(element);
+        } else if (index == length - 1) {
+            insertAtTail(element);
+        } else {
+            node<T> *current = first;
+            for (int i = 0; i < index - 1; i++) {
+                current = current->next;
             }
-            if (index == length) {
-                insertAtTail(element);
-            } else {
-                node<T> *current = first;
-                for (int i = 0; i < index - 1; i++) {
-                    current = current->next;
-                }
-                newNode->next = current->next;
-                newNode->pre = current;
-                current->next = newNode;
-                current->next->next->pre = newNode;
-                length++;
-            }
+            newNode->next = current->next;
+            newNode->pre = current;
+            current->next->pre = newNode;
+            current->next = newNode;
+            length++;
         }
     }
 
-
     void removeAtHead() {
         if (isEmpty()) {
-            cout << "List is Empty" <<endl;
+            cout << "List is Empty" << endl;
+            return;
         }
 
-        else if (length == 1) {
-            delete first;
-            last = first = nullptr;
-        } else {
-            node<T> *current = first;
-            first = first->next;
+        node<T> *current = first;
+        first = first->next;
+        if (first != nullptr) {
             first->pre = nullptr;
-            delete current;
+        } else {
+            last = nullptr; // Handle removing the only element
         }
+        delete current;
         length--;
     }
 
     void removeAtTail() {
         if (isEmpty()) {
-            cout << "List is Empty" <<endl;
+            cout << "List is Empty" << endl;
+            return;
         }
 
-        else if (length == 1) {
-            delete first;
-            last = first = nullptr;
-        } else {
-            node<T> *current = last;
-            last = last->pre;
+        node<T> *current = last;
+        last = last->pre;
+        if (last != nullptr) {
             last->next = nullptr;
-            delete current;
+        } else {
+            first = nullptr; // Handle removing the only element
         }
+        delete current;
         length--;
     }
 
     void removeAt(int index) {
         if (isEmpty()) {
-            cout<<"List is Empty"<<endl;
+            cout << "List is Empty" << endl;
+            return;
         }
-        if (index< 0||index >=length) {
-            cout<<"Out of the Range"<<endl;
+
+        if (index < 0 || index >= length) {
+            cout << "OUT OF RANGE" << endl;
+            return;
         }
+
         if (index == 0) {
             removeAtHead();
-            return;
-        }
-        if (index == length - 1) {
+        } else if (index == length - 1) {
             removeAtTail();
-            return;
-        }
-        node<T>* current = first->next;
-        node<T>* previous = first;
+        } else {
+            node<T> *current = first->next;
+            node<T> *previous = first;
 
-        for (int i = 1; i < index; i++)
-        {
-            previous= current;
-            current = current->next;
+            for (int i = 1; i < index; i++) {
+                previous = current;
+                current = current->next;
+            }
+            previous->next = current->next;
+            current->next->pre = previous;
+            delete current;
+            length--;
         }
-        previous->next = current->next;
-        current->next->pre = previous;
-        delete current;
-        length--;
-
     }
     node<T>* getNodeAt(int index) {
         if (index < 0 || index >= length) {
@@ -182,7 +175,7 @@ public:
         node<T>* secondNode = getNodeAt(secondItemIdx);
 
         if (firstNode == nullptr || secondNode == nullptr) {
-         cout << "Nodes not found for swapping!" << endl;
+            cout << "Nodes not found for swapping!" << endl;
             return;
         }
 
@@ -200,7 +193,7 @@ public:
             if (secondNext != nullptr) {
                 secondNext->pre = firstNode;
             } else {
-               last= firstNode;
+                last= firstNode;
             }
 
             firstNode->next = secondNext;
@@ -227,7 +220,7 @@ public:
             if (secondPrev != nullptr) {
                 secondPrev->next = firstNode;
             } else {
-               first= firstNode;
+                first= firstNode;
             }
 
             if (secondNext != nullptr) {
@@ -258,9 +251,10 @@ public:
     T retrieveAt(int index)  {
         if (isEmpty()) {
             cout << "List is Empty" <<endl;
+
         }
 
-        if (index< 0||index >=length) {
+        else if (index< 0||index >=length) {
             cout << "OUT OF RANGE" <<endl;
         }
 
@@ -286,10 +280,12 @@ public:
     void replaceAt(T newElement,int index) {
         if (isEmpty()) {
             cout << "List is Empty" <<endl;
+            return;
         }
 
         if (index <0|| index >= length) {
             cout << "OUT OF RANGE" <<endl;
+            return;
         }
 
         node<T>* current = first;
@@ -339,12 +335,12 @@ int main() {
     cout << "after inserting at tail: ";
     list.print();
 
-    cout << "after swapping 0 and 3: ";
+    cout << "after swapping 2 and 3: ";
     list.swap(2,3);
     list.print();
 
-    cout << "after swapping 3 and 2: ";
-    list.swap(1,0);
+    cout << "after swapping 1 and 3: ";
+    list.swap(1,3);
     list.print();
 
 
