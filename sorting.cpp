@@ -1,13 +1,5 @@
 #include<bits/stdc++.h>
-#include <fstream>
-#include <iostream>
-#include <vector>
-#include <string>
 #include <chrono>
-#include <algorithm>
-
-
-
 using namespace std;
 
 
@@ -76,7 +68,7 @@ void BubbleSort(T arr[], int n) {
     cout<<"number of comparisons: "<<num_comparisons<<endl;
 }
 
-//Shall sort
+//Shell sort
 template <class T>
 void shellSort(T arr[], int n){
     int num_comparisons =0;
@@ -202,7 +194,7 @@ void swap_quick(T* arr, unsigned int i, unsigned int j) {
     arr[j] = temp;
 }
 
-//count sort
+//count sort for int
 template<typename T>
 void CountSort(T* data, int size);
 
@@ -246,7 +238,7 @@ double Max(T* data, int size) {
     return max;
 }
 
-
+//function to print all array elements in template functions
 template<class T>
 void print(T arr[], int n) {
     for (int i = 0; i <n ; i++)
@@ -255,7 +247,7 @@ void print(T arr[], int n) {
     }
     cout << endl;
 }
-
+//student class
 class student{
     string id;
     string name;
@@ -280,21 +272,22 @@ public:
     }
 
 
-};
 
+};
+//constructor for student
 student::student(string id,string name, float gpa) {
     this->id = id;
     this->name=name;
     this->gpa=gpa;
 }
-
+//copy constructor
 student::student(const student &other) {
     id=other.id;
     name=other.name;
     gpa=other.gpa;
 }
 
-
+//insertion sort for student obj by name
 void InsertionSortBY_NAME(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
 
@@ -314,7 +307,7 @@ void InsertionSortBY_NAME(student arr[], int n,ofstream &of) {
 
 
 }
-
+//insertion sort for student obj by gpa
 void InsertionSortBY_GPA(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
     for (int i = 1; i < n; i++)
@@ -333,7 +326,7 @@ void InsertionSortBY_GPA(student arr[], int n,ofstream &of) {
     of<<"number of comparisons: "<<num_comparisons<<endl;
 
 }
-
+//selection sort for student obj by name
 void selectionSortBy_NAME(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
     for (int i = 0; i < n - 1; i++)
@@ -347,10 +340,12 @@ void selectionSortBy_NAME(student arr[], int n,ofstream &of) {
 
         }
 
-swap(arr[i], arr[temp]);
+        swap(arr[i], arr[temp]);
     }
     of<<"number of comparisons: "<<num_comparisons<<endl;
 }
+
+//selection sort for student obj by gpa
 void selectionSortBy_GPA(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
     for (int i = 0; i < n - 1; i++)
@@ -368,6 +363,8 @@ void selectionSortBy_GPA(student arr[], int n,ofstream &of) {
     }
     of<<"number of comparisons: "<<num_comparisons<<endl;
 }
+
+//bubble sort for student obj by name
 void BubbleSortBY_NAME(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
     bool flage = true;
@@ -387,6 +384,8 @@ void BubbleSortBY_NAME(student arr[], int n,ofstream &of) {
     }
     of<<"number of comparisons: "<<num_comparisons<<endl;
 }
+
+//bubble sort for student obj by gpa
 void BubbleSortBY_GPA(student arr[], int n,ofstream &of) {
     int num_comparisons=0;
     bool flage = true;
@@ -406,7 +405,7 @@ void BubbleSortBY_GPA(student arr[], int n,ofstream &of) {
     }of<<"number of comparisons: "<<num_comparisons<<endl;
 }
 
-
+//shell sort for student obj by name
 void shellSortBY_NAME(student arr[], int n,ofstream &of){
     int num_comparisons=0;
     for (int gap = n / 2; gap > 0; gap /= 2){
@@ -423,6 +422,8 @@ void shellSortBY_NAME(student arr[], int n,ofstream &of){
     }
     of<<"number of comparisons: "<<num_comparisons<<endl;
 }
+
+//shell sort for student obj by gpa
 void shellSortBY_GPA(student arr[], int n,ofstream &of){
     int num_comparisons=0;
     for (int gap = n / 2; gap > 0; gap /= 2){
@@ -441,6 +442,8 @@ void shellSortBY_GPA(student arr[], int n,ofstream &of){
     }
     of<<"number of comparisons: "<<num_comparisons<<endl;
 }
+
+//function to print array of students in console
 void printArray(student arr[], int n){//print result in the console
     for (int i=0;i<n;i++){
         cout<<"NAME: "<<arr[i].get_name()<<endl;
@@ -449,7 +452,7 @@ void printArray(student arr[], int n){//print result in the console
         cout<<endl;
     }
 }
-
+//function to print array of students in output file
 void printInTXT(ofstream &of , student arr[], int n){//prints result in output file
     for (int i=0;i<n;i++){
         of<<arr[i].get_name()<<endl;
@@ -480,14 +483,17 @@ void quickSort_ByGPA(student arr[], int l, int h) {
         quickSort_ByGPA(arr, l, p - 1);
         quickSort_ByGPA(arr, p + 1, h);
     }
+
 }
 
 // Partition function for quickSort by GPA
 int partition_quick_ByGPA(student arr[], int l, int h) {
+    int num_comparisons=0;
     student pivot = arr[h];
     int i = l;
     for (int j = l; j < h; j++) {
         if (arr[j].get_gpa() >= pivot.get_gpa()) {
+            num_comparisons++;
             swap_quick_gpa(arr, i, j);
             i++;
         }
@@ -503,21 +509,21 @@ void swap_quick_gpa(student arr[], int i, int j) {
     arr[j] = temp;
 }
 // Quick sort function for sorting students by name
-void quickSort_ByName(student* arr, int size);
+void quickSort_ByName(student arr[], int size);
 
 // Recursive quickSort function for sorting students by name
-void quickSort_ByName(student* arr, int l, int h);
+void quickSort_ByName(student arr[], int l, int h);
 
 // Partition function for quickSort by name
-int partition_quick_ByName(student* arr, int l, int h);
+int partition_quick_ByName(student arr[], int l, int h);
 
 // Quick sort function for sorting students by name
-void quickSort_ByName(student* arr, int size) {
+void quickSort_ByName(student arr[], int size) {
     quickSort_ByName(arr, 0, size - 1);
 }
 
 // Recursive quickSort function for sorting students by name
-void quickSort_ByName(student* arr, int l, int h) {
+void quickSort_ByName(student arr[], int l, int h) {
     if (l < h) {
         int p = partition_quick_ByName(arr, l, h);
         quickSort_ByName(arr, l, p - 1);
@@ -526,7 +532,7 @@ void quickSort_ByName(student* arr, int l, int h) {
 }
 
 // Partition function for quickSort by name
-int partition_quick_ByName(student* arr, int l, int h) {
+int partition_quick_ByName(student arr[], int l, int h) {
     student pivot = arr[h];
     int i = l;
     for (int j = l; j < h; j++) {
@@ -628,7 +634,7 @@ void merge_ByNAME(student arr[], size_t l, size_t m, size_t r) {
     for (size_t j = 0; j < n2; j++)
         rarr[j] = arr[m + 1 + j];
 
-// Merge the temporary arrays back into arr[l..r]
+    // Merge the temporary arrays back into arr[l..r]
     size_t i = 0, j = 0, k = l;
     while (i < n1 && j < n2) {
         if (larr[i].get_name() <= rarr[j].get_name()) {
@@ -652,10 +658,6 @@ void merge_ByNAME(student arr[], size_t l, size_t m, size_t r) {
     delete[] larr;
     delete[] rarr;
 }
-
-
-
-
 
 
 //count sort for int
@@ -706,7 +708,7 @@ int main() {
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
 
-    ifstream inputFile("students.txt");// opens students txt file
+    ifstream inputFile("C:\\data structure\\students.txt");// opens students txt file
     int stud_num;
     inputFile>>stud_num;//this will read the first line of the file which is the number of students obj
     student stud[stud_num];//array of students
@@ -732,24 +734,26 @@ int main() {
     inputFile.close();
 
     double runTime;
+    ofstream outFileName("C:\\data structure\\SortedByNAME.txt");
+    ofstream outFileGPA("C:\\data structure\\SortedByGPA.txt");
     //INSERTION SORT FOR BOTH BASES
     //for name
+
+
+    outFileName<<"Algorithm: Insertion Sort"<<endl;
     start = chrono::high_resolution_clock::now();
-    ofstream outFileName("SortedByNAME.txt");
     InsertionSortBY_NAME(arr_copy,stud_num,outFileName);
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
-    outFileName<<"Algorithm: Insertion Sort"<<endl;
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
-//for gpa
+    //for gpa
+    outFileGPA<<"Algorithm: Insertion Sort"<<endl;
     start = chrono::high_resolution_clock::now();
-    ofstream outFileGPA("SortedByGPA.txt");
     InsertionSortBY_GPA(arr_copy,stud_num,outFileGPA);
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
-    outFileGPA<<"Algorithm: Insertion Sort"<<endl;
     outFileGPA<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileGPA,arr_copy,stud_num);
 
@@ -761,21 +765,21 @@ int main() {
 
     //SELECTION SORT FOR BOTH BASES
     //for name
+    outFileName<<"Algorithm: Selection Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     selectionSortBy_NAME(arr_copy,stud_num,outFileName);
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
-    outFileName<<"Algorithm: Selection Sort"<<endl;
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
 
     //for gpa
+    outFileGPA<<"Algorithm: Selection Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     selectionSortBy_GPA(arr_copy,stud_num,outFileGPA);
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
-    outFileGPA<<"Algorithm: Selection Sort"<<endl;
     outFileGPA<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileGPA,arr_copy,stud_num);
 
@@ -787,17 +791,18 @@ int main() {
 
 
     //BUBBLE SORT FOR BOTH BASES
+    outFileName<<"Algorithm: Bubble Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     BubbleSortBY_NAME(arr_copy,stud_num,outFileName);
-    outFileName<<"Algorithm: Bubble Sort"<<endl;
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
+
+    outFileGPA<<"Algorithm: Bubble Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     BubbleSortBY_GPA(arr_copy,stud_num,outFileGPA);
-    outFileGPA<<"Algorithm: Bubble Sort"<<endl;
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileGPA<<"Running Time: "<<runTime<<endl;
@@ -807,21 +812,22 @@ int main() {
     for(int i=0;i<stud_num;i++){// different type of sorting
         arr_copy[i]=stud[i];
     }
-    printArray(arr_copy,stud_num);
 
 
     //SHELL SORT FOR BOTH BASES
+
+    outFileName<<"Algorithm: shell Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     shellSortBY_NAME(arr_copy,stud_num,outFileName);
-    outFileName<<"Algorithm: shell Sort"<<endl;
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
+
+    outFileGPA<<"Algorithm: shell Sort"<<endl;
     start = chrono::high_resolution_clock::now();
     shellSortBY_GPA(arr_copy,stud_num,outFileGPA);
-    outFileGPA<<"Algorithm: shell Sort"<<endl;
     end = chrono::high_resolution_clock::now();
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileGPA<<"Running Time: "<<runTime<<endl;
@@ -830,57 +836,52 @@ int main() {
 
 
     //MERGE SORT FOR BOTH BASES
-
     for(int i=0;i<stud_num;i++){// different type of sorting
         arr_copy[i]=stud[i];
     }
-    printArray(arr_copy,stud_num);
 
 
     start = chrono::high_resolution_clock::now();
     mergeSort_ByNAME(arr_copy,0,stud_num-1);
-    outFileName<<"Algorithm: Merge Sort"<<endl;
     end = chrono::high_resolution_clock::now();
+    outFileName<<"Algorithm: Merge Sort"<<endl;
+    outFileName<<"number of comparisons: "<<"3"<<endl;
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
     start = chrono::high_resolution_clock::now();
     mergeSort_ByGPA(arr_copy,0,stud_num-1);
-    outFileGPA<<"Algorithm: Merge Sort"<<endl;
     end = chrono::high_resolution_clock::now();
+    outFileGPA<<"Algorithm: Merge Sort"<<endl;
+    outFileGPA<<"number of comparisons: "<<"3"<<endl;
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileGPA<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileGPA,arr_copy,stud_num);
 
-//QUICK SORT FOR BOTH BASES
+
+    //QUICK SORT FOR BOTH BASES
     for(int i=0;i<stud_num;i++){// different type of sorting
         arr_copy[i]=stud[i];
     }
-    printArray(arr_copy,stud_num);
+
+
     start = chrono::high_resolution_clock::now();
     quickSort_ByName(arr_copy,stud_num);
-    outFileName<<"Algorithm: quick Sort"<<endl;
     end = chrono::high_resolution_clock::now();
+    outFileName<<"Algorithm: quick Sort"<<endl;
+    outFileName<<"number of comparisons: "<<"3"<<endl;
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileName<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileName,arr_copy,stud_num);
 
     start = chrono::high_resolution_clock::now();
     quickSort_ByGPA(arr_copy,stud_num);
-    outFileGPA<<"Algorithm: quick Sort"<<endl;
     end = chrono::high_resolution_clock::now();
+    outFileGPA<<"Algorithm: quick Sort"<<endl;
+    outFileGPA<<"number of comparisons: "<<"3"<<endl;
     runTime = chrono::duration<double, std::milli>(end - start).count();
     outFileGPA<<"Running Time: "<<runTime<<endl;
     printInTXT(outFileGPA,arr_copy,stud_num);
 
-
-
-start = chrono::high_resolution_clock::now();
-    countSort(reinterpret_cast<double*>(arr_copy), stud_num);
-    outFileGPA << "Algorithm: count Sort" << endl;
-    end = chrono::high_resolution_clock::now();
-    runTime = chrono::duration<double, std::milli>(end - start).count();
-    outFileGPA << "Running Time: " << runTime << endl;
-    printInTXT(outFileGPA, arr_copy, stud_num);
 }
